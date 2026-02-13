@@ -534,3 +534,94 @@
 		padding-top: 10px;
 	}
 }
+
+/* =====================================================
+   CAMPAGNES - Phase 5
+   ===================================================== */
+
+/* Schedule badges */
+.schedule-badge {
+	display: inline-block;
+	padding: 3px 8px;
+	border-radius: 3px;
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
+.schedule-badge.schedule-daily {
+	background: #3582c4;
+	color: white;
+}
+
+.schedule-badge.schedule-weekly {
+	background: #00a32a;
+	color: white;
+}
+
+.schedule-badge.schedule-monthly {
+	background: #f56e28;
+	color: white;
+}
+
+.schedule-badge.schedule-custom {
+	background: #9254de;
+	color: white;
+}
+
+/* Campaign form styling */
+.prospection-campaign-form .form-table th {
+	width: 200px;
+	vertical-align: top;
+	padding-top: 20px;
+}
+
+.prospection-campaign-form .required {
+	color: #d63638;
+}
+
+.prospection-campaign-form fieldset {
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+
+.prospection-campaign-form fieldset label {
+	display: block;
+	margin-bottom: 8px;
+}
+
+.prospection-campaign-form .error-message {
+	color: #d63638;
+	font-weight: 600;
+}
+
+/* Custom date field styling */
+#custom-date-field {
+	background: #f8f9fa;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	padding: 15px;
+}
+
+#custom-date-field input[type="datetime-local"] {
+	max-width: 300px;
+}
+
+/* Campaign list - reuse contact styles but add campaign-specific overrides */
+.wp-list-table.campaigns .column-name {
+	width: 20%;
+}
+
+/* Responsive adjustments for campaign form */
+@media screen and (max-width: 782px) {
+	.prospection-campaign-form .form-table th {
+		width: auto;
+		padding-top: 10px;
+	}
+
+	#custom-date-field input[type="datetime-local"] {
+		max-width: 100%;
+		width: 100%;
+	}
+}

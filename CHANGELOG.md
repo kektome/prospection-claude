@@ -8,7 +8,62 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 ## [Non publié]
 
 ### En cours
-- Phase 5: Interface Admin - Gestion des Campagnes
+- Phase 6: Service Layer - Envoi d'Emails
+
+---
+
+## [0.5.0] - 2026-02-13
+
+### Ajouté
+- **Phase 5 complétée: Interface Admin - Gestion des Campagnes**
+  - Interface complète de gestion des campagnes d'emails (CRUD)
+  - Sélection de template avec liste déroulante
+  - Gestion des catégories cibles (checkboxes multiples)
+  - Configuration du scheduling (quotidien, hebdomadaire, mensuel, personnalisé)
+  - Activation/désactivation des campagnes
+  - Affichage de la prochaine exécution
+  - Filtrage par statut (actives/inactives)
+
+### Interface Admin
+- **Classe Campaign_Manager**: Gestion CRUD des campagnes
+  - render(): Point d'entrée principal
+  - handle_create/update/delete/toggle(): Actions avec validation
+  - calculate_next_run(): Calcul automatique selon scheduling
+  - render_list(): Liste avec pagination/filtres
+  - render_form(): Formulaire avec template selection
+  - Messages d'erreur/succès avec transients
+
+### Templates
+- **campaign-list.php**: Table responsive des campagnes
+  - Colonnes: Nom, Template, Catégories, Scheduling, Prochaine exécution, Statut
+  - Badges colorés pour scheduling (bleu/vert/orange/violet)
+  - Actions: Modifier, Activer/Désactiver, Supprimer
+  - Filtre par statut avec dropdown
+
+- **campaign-form.php**: Formulaire complet
+  - Sélection de template (dropdown avec catégorie)
+  - Catégories multiples (checkboxes)
+  - Types scheduling (radio): quotidien, hebdomadaire, mensuel, personnalisé
+  - Champ date/heure conditionnel pour personnalisé
+  - Checkbox activation
+
+### Styles et JavaScript
+- **admin.css**: Badges scheduling colorés, champ date conditionnel stylé
+- **admin.js**:
+  * initCampaignsPage(): Initialisation
+  * filterByStatus(): Filtre actives/inactives
+  * toggleCustomDateField(): Show/hide date selon scheduling
+  * Confirmation suppression
+  * Animation slideDown/slideUp
+
+### Logique Métier
+- calculate_next_run(): Calcul selon type (daily: +1j, weekly: +1w, monthly: +1m, custom: date fournie)
+- Sanitization catégories (array checkboxes) et config (JSON)
+- Toggle active rapide avec nonce
+
+### Notes
+- Prêt pour Phase 6 (Envoi d'Emails)
+- Compatible WordPress 5.8+
 
 ---
 

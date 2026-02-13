@@ -13,6 +13,7 @@
 	$(document).ready(function() {
 		initContactsPage();
 		initTemplatesPage();
+		initCampaignsPage();
 	});
 
 	/**
@@ -228,6 +229,77 @@
 		setTimeout(function() {
 			toast.remove();
 		}, 3000);
+	}
+
+	/* =====================================================
+	   CAMPAGNES - Phase 5
+	   ===================================================== */
+
+	/**
+	 * Initialisation de la page des campagnes.
+	 */
+	function initCampaignsPage() {
+		// Filtre par statut
+		$('#filter-by-status').on('change', function() {
+			filterByStatus();
+		});
+
+		$('#filter-submit').on('click', function(e) {
+			e.preventDefault();
+			filterByStatus();
+		});
+
+		// Confirmation de suppression des campagnes
+		$('a.delete-campaign, a[href*="prospection-claude-campaigns"][href*="action=delete"]').on('click', function(e) {
+			const confirmText = 'Êtes-vous sûr de vouloir supprimer cette campagne ?';
+			if (!confirm(confirmText)) {
+				e.preventDefault();
+				return false;
+			}
+		});
+
+		// Afficher/masquer le champ de date personnalisée selon le type de scheduling
+		$('input[name="schedule_type"]').on('change', function() {
+			toggleCustomDateField();
+		});
+
+		// Initialiser l'affichage du champ de date au chargement
+		toggleCustomDateField();
+	}
+
+	/**
+	 * Filtre la liste des campagnes par statut.
+	 */
+	function filterByStatus() {
+		const status = $('#filter-by-status').val();
+		const currentUrl = new URL(window.location.href);
+
+		// Supprimer la pagination
+		currentUrl.searchParams.delete('paged');
+
+		if (status) {
+			currentUrl.searchParams.set('filter_active', status);
+		} else {
+			currentUrl.searchParams.delete('filter_active');
+		}
+
+		window.location.href = currentUrl.toString();
+	}
+
+	/**
+	 * Affiche ou masque le champ de date personnalisée.
+	 */
+	function toggleCustomDateField() {
+		const selectedType = $('input[name="schedule_type"]:checked').val();
+		const $customDateField = $('#custom-date-field');
+
+		if (selectedType === 'custom') {
+			$customDateField.slideDown(200);
+			$('#custom_date').prop('required', true);
+		} else {
+			$customDateField.slideUp(200);
+			$('#custom_date').prop('required', false);
+		}
 	}
 
 })(jQuery);
