@@ -1,0 +1,18 @@
+/**
+ * Styles pour la partie publique du plugin Prospection Claude.
+ *
+ * @package ProspectionClaude
+ */
+
+/* Styles pour la page de désinscription */
+.prospection-unsubscribe {
+	max-width: 600px;
+	margin: 50px auto;
+	padding: 30px;
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	text-align: center;
+}
+
+/* Les styles spécifiques seront ajoutés dans la Phase 8 */
