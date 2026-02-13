@@ -8,7 +8,58 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 ## [Non publié]
 
 ### En cours
-- Phase 2: Models et Repositories
+- Phase 3: Interface Admin - Gestion des Contacts
+
+---
+
+## [0.2.0] - 2026-02-13
+
+### Ajouté
+- **Phase 2 complétée: Models et Repositories**
+  - Helper `Validator` avec méthodes de validation et sanitization
+  - Model `Contact` avec validation complète
+  - Model `EmailTemplate` avec remplacement de variables
+  - Model `Campaign` avec gestion du scheduling
+  - Model `EmailLog` avec gestion des statuts
+  - Repository `Contact` avec CRUD complet + recherche/filtres
+  - Repository `Template` avec CRUD et filtrage par catégorie
+  - Repository `Campaign` avec recherche des campagnes à exécuter
+  - Repository `Log` avec statistiques d'envoi
+
+### Technique
+- Pattern Repository implémenté pour abstraction de la couche données
+- Validation et sanitization systématiques (sanitize_*, esc_*, wp_kses)
+- Méthodes de recherche avec pagination
+- Support complet des 3 catégories (micrologiciel, scientifique, informatique)
+- Variables dynamiques dans les templates: {first_name}, {last_name}, {company}, etc.
+- Méthodes de comptage et statistiques
+- Protection contre injection SQL avec $wpdb->prepare()
+- Chargement automatique des classes dans Plugin_Core
+
+### Models
+- **Contact**: Validation email/téléphone, catégorie, dates
+- **EmailTemplate**: Variables remplaçables, sanitization HTML
+- **Campaign**: Gestion types de scheduling (daily, weekly, monthly, custom)
+- **EmailLog**: Tracking statuts (pending, sent, failed, bounced)
+
+### Repositories - Méthodes CRUD
+- `create()`: Création avec validation
+- `find_by_id()`: Récupération par ID
+- `find_all()`: Liste avec pagination et tri
+- `update()`: Mise à jour avec validation
+- `delete()`: Suppression
+- `count()`: Comptage avec filtres
+
+### Repositories - Méthodes Spécifiques
+- **Contact**: search(), find_by_category(), find_by_email(), unsubscribe()
+- **Template**: find_by_category()
+- **Campaign**: find_active(), find_due_campaigns(), toggle_active()
+- **Log**: find_by_contact(), find_by_campaign(), find_by_status(), get_statistics()
+
+### Notes
+- Couche de données complète et opérationnelle
+- Prêt pour Phase 3 (Interface Admin - Gestion des Contacts)
+- Aucune interface utilisateur encore (phases 3-5)
 
 ---
 

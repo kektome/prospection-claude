@@ -54,11 +54,25 @@ class Prospection_Claude_Plugin_Core {
 	 * Charge toutes les dépendances du plugin.
 	 *
 	 * Cette méthode inclut les fichiers nécessaires au fonctionnement du plugin.
-	 * Pour l'instant, elle est minimale et sera étendue dans les phases suivantes.
+	 * Phase 2: Chargement des Helpers, Models et Repositories.
 	 */
 	private function load_dependencies() {
-		// Les autres dépendances seront chargées dans les phases suivantes
-		// (Repositories, Services, Admin, etc.)
+		// Charger le Helper Validator
+		require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Helpers/class-validator.php';
+
+		// Charger les Models
+		require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Models/class-contact.php';
+		require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Models/class-email-template.php';
+		require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Models/class-campaign.php';
+		require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Models/class-email-log.php';
+
+		// Charger les Repositories
+		require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Repositories/class-contact-repository.php';
+		require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Repositories/class-template-repository.php';
+		require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Repositories/class-campaign-repository.php';
+		require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Repositories/class-log-repository.php';
+
+		// Les Services et Admin seront chargés dans les phases suivantes
 	}
 
 	/**
