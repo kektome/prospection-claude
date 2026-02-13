@@ -3,7 +3,7 @@
  * Plugin Name:       Prospection Claude
  * Plugin URI:        https://github.com/kektome/prospection-claude
  * Description:       Plugin de gestion de contacts et d'envoi automatisé de newsletters pour les prospects rencontrés en congrès.
- * Version:           0.3.0
+ * Version:           0.4.0
  * Requires at least: 5.8
  * Requires PHP:      7.4
  * Author:            Développé avec Claude Code
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Version actuelle du plugin.
  */
-define( 'PROSPECTION_CLAUDE_VERSION', '0.3.0' );
+define( 'PROSPECTION_CLAUDE_VERSION', '0.4.0' );
 
 /**
  * Chemin du plugin.

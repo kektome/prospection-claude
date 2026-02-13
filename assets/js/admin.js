@@ -12,6 +12,7 @@
 	 */
 	$(document).ready(function() {
 		initContactsPage();
+		initTemplatesPage();
 	});
 
 	/**
@@ -132,6 +133,101 @@
 		const cleaned = phone.replace(/[\s\-\(\)\.]/g, '');
 		const re = /^\+?[0-9]{10,15}$/;
 		return re.test(cleaned);
+	}
+
+	/* =====================================================
+	   TEMPLATES D'EMAILS - Phase 4
+	   ===================================================== */
+
+	/**
+	 * Initialisation de la page des templates.
+	 */
+	function initTemplatesPage() {
+		// Filtre par catégorie (même logique que contacts)
+		$('#filter-submit').on('click', function(e) {
+			e.preventDefault();
+			filterByCategory();
+		});
+
+		$('#filter-by-category').on('change', function() {
+			filterByCategory();
+		});
+
+		// Confirmation de suppression des templates
+		$('a.delete-template').on('click', function(e) {
+			const confirmText = 'Êtes-vous sûr de vouloir supprimer ce template ?';
+			if (!confirm(confirmText)) {
+				e.preventDefault();
+				return false;
+			}
+		});
+
+		// Gestion des boutons de variables
+		$('.variable-button').on('click', function(e) {
+			e.preventDefault();
+			const variable = $(this).data('variable');
+			copyToClipboard(variable);
+			showCopiedToast(variable);
+		});
+	}
+
+	/**
+	 * Copie du texte dans le presse-papiers.
+	 *
+	 * @param {string} text Le texte à copier
+	 */
+	function copyToClipboard(text) {
+		// Utiliser l'API moderne du presse-papiers si disponible
+		if (navigator.clipboard && navigator.clipboard.writeText) {
+			navigator.clipboard.writeText(text).catch(function(err) {
+				console.error('Erreur lors de la copie:', err);
+				fallbackCopyToClipboard(text);
+			});
+		} else {
+			// Fallback pour les navigateurs plus anciens
+			fallbackCopyToClipboard(text);
+		}
+	}
+
+	/**
+	 * Méthode de fallback pour copier dans le presse-papiers.
+	 *
+	 * @param {string} text Le texte à copier
+	 */
+	function fallbackCopyToClipboard(text) {
+		const textarea = document.createElement('textarea');
+		textarea.value = text;
+		textarea.style.position = 'fixed';
+		textarea.style.left = '-9999px';
+		document.body.appendChild(textarea);
+		textarea.select();
+		try {
+			document.execCommand('copy');
+		} catch (err) {
+			console.error('Erreur lors de la copie:', err);
+		}
+		document.body.removeChild(textarea);
+	}
+
+	/**
+	 * Affiche un toast de confirmation de copie.
+	 *
+	 * @param {string} variable La variable copiée
+	 */
+	function showCopiedToast(variable) {
+		// Supprimer les toasts existants
+		$('.variable-copied-toast').remove();
+
+		// Créer le nouveau toast
+		const toast = $('<div class="variable-copied-toast"></div>')
+			.text('Variable ' + variable + ' copiée !');
+
+		$('body').append(toast);
+
+		// Supprimer le toast après 3 secondes
+		setTimeout(function() {
+			toast.remove();
+		}, 3000);
 	}
 
 })(jQuery);

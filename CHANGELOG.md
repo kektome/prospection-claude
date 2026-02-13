@@ -8,7 +8,101 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 ## [Non publié]
 
 ### En cours
-- Phase 4: Interface Admin - Templates d'Emails
+- Phase 5: Interface Admin - Gestion des Campagnes
+
+---
+
+## [0.4.0] - 2026-02-13
+
+### Ajouté
+- **Phase 4 complétée: Interface Admin - Templates d'Emails**
+  - Interface complète de gestion des templates d'emails (CRUD)
+  - Liste des templates avec pagination et filtres
+  - Formulaire d'ajout/édition avec éditeur riche (TinyMCE)
+  - Système de variables dynamiques pour personnalisation
+  - Prévisualisation et insertion facile des variables
+  - Suppression avec confirmation
+  - Filtrage par catégorie (micrologiciel, scientifique, informatique, tous)
+
+### Interface Admin
+- **Classe Template_Manager**: Gestion CRUD des templates d'emails
+  - render(): Point d'entrée principal
+  - handle_create(): Création avec validation
+  - handle_update(): Mise à jour avec validation
+  - handle_delete(): Suppression avec nonce
+  - render_list(): Liste avec pagination/filtres
+  - render_form(): Formulaire avec éditeur WYSIWYG
+  - Messages d'erreur/succès avec transients
+
+### Templates
+- **template-list.php**: Table responsive des templates
+  - Pagination avec navigation
+  - Filtre par catégorie (dropdown)
+  - Actions rapides (Modifier, Supprimer)
+  - Badges catégories colorés (incluant "Tous")
+  - Affichage du sujet tronqué
+  - Message si aucun template
+
+- **template-form.php**: Formulaire complet d'édition
+  - Champs: Nom, Sujet, Catégorie, Contenu
+  - Éditeur TinyMCE intégré pour le contenu HTML
+  - Variables disponibles: {first_name}, {last_name}, {full_name}, {company}, {email}, {unsubscribe_link}
+  - Boutons cliquables pour copier les variables
+  - Toast de confirmation de copie
+  - Validation HTML5 (required)
+  - Boutons Sauvegarder/Annuler
+
+### Styles et JavaScript
+- **admin.css**: Styles pour l'interface des templates
+  - Variables box avec boutons cliquables
+  - Boutons de variables avec hover effects et descriptions
+  - Toast de confirmation animé (slideInUp/slideOutDown)
+  - Badge coloré pour catégorie "Tous" (violet)
+  - Layout responsive pour la liste et le formulaire
+  - Intégration propre avec TinyMCE
+
+- **admin.js**: Fonctionnalités interactives des templates
+  - initTemplatesPage(): Initialisation de la page
+  - copyToClipboard(): Copie des variables dans le presse-papiers
+  - fallbackCopyToClipboard(): Fallback pour anciens navigateurs
+  - showCopiedToast(): Toast de confirmation de copie
+  - Filtre par catégorie avec navigation
+  - Confirmation avant suppression
+  - Support des API modernes (Navigator.clipboard)
+
+### Intégration
+- **Admin_Menu**: Template Manager initialisé dans le constructeur
+  - render_templates_page() utilise Template_Manager->render()
+  - Intégration avec le système de permissions existant
+
+- **Plugin_Core**: Chargement automatique du Template_Manager
+  - Template_Manager chargé avec les autres classes Admin
+  - Commentaires mis à jour (Phase 3 & 4)
+
+### Sécurité
+- Nonces pour tous les formulaires
+- Vérification des capabilities (manage_prospection_templates)
+- Sanitization du HTML avec wp_kses_post()
+- Validation côté serveur ET client
+- Protection CSRF
+- Échappement des outputs dans les templates
+
+### UX/UI
+- Interface moderne et intuitive
+- Éditeur WYSIWYG professionnel
+- Variables cliquables avec descriptions
+- Toast de confirmation élégant
+- Badges colorés par catégorie
+- Messages de feedback clairs
+- Design responsive (mobile, tablette, desktop)
+
+### Notes
+- Interface de gestion des templates complète et opérationnelle
+- Intégration parfaite avec le Model EmailTemplate et Template Repository existants
+- Système de variables prêt pour l'envoi personnalisé
+- Prêt pour Phase 5 (Campagnes)
+- Aucune erreur PHP
+- Compatible WordPress 5.8+
 
 ---
 
