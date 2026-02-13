@@ -30,8 +30,8 @@
 			filterByCategory();
 		});
 
-		// Confirmation de suppression
-		$('a[href*="action=delete"]').on('click', function(e) {
+		// Confirmation de suppression des contacts (sélecteur spécifique)
+		$('a.delete-contact, a[href*="prospection-claude-contacts"][href*="action=delete"]').on('click', function(e) {
 			const confirmText = $(this).data('confirm') || 'Êtes-vous sûr de vouloir supprimer ce contact ?';
 			if (!confirm(confirmText)) {
 				e.preventDefault();
