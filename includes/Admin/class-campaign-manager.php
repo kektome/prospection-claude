@@ -255,27 +255,45 @@ class Prospection_Claude_Campaign_Manager {
 	 * @return string Date au format MySQL.
 	 */
 	private function calculate_next_run( $schedule_type, $schedule_config = array() ) {
-		$next_run = current_time( 'mysql' );
+		// Récupérer la date de départ depuis la config
+		$start_date = isset( $schedule_config['schedule_date'] ) ? $schedule_config['schedule_date'] : current_time( 'mysql' );
+		$start_timestamp = strtotime( $start_date );
+		$current_timestamp = strtotime( current_time( 'mysql' ) );
+
+		// Si la date de départ est dans le futur, l'utiliser directement
+		if ( $start_timestamp > $current_timestamp ) {
+			return gmdate( 'Y-m-d H:i:s', $start_timestamp );
+		}
+
+		// Si la date est dans le passé, calculer la prochaine occurrence
+		$next_run = $start_timestamp;
 
 		switch ( $schedule_type ) {
 			case 'daily':
-				$next_run = gmdate( 'Y-m-d H:i:s', strtotime( '+1 day', strtotime( $next_run ) ) );
+				// Trouver le prochain jour après maintenant
+				while ( $next_run <= $current_timestamp ) {
+					$next_run = strtotime( '+1 day', $next_run );
+				}
 				break;
 			case 'weekly':
-				$next_run = gmdate( 'Y-m-d H:i:s', strtotime( '+1 week', strtotime( $next_run ) ) );
+				// Trouver la prochaine semaine après maintenant
+				while ( $next_run <= $current_timestamp ) {
+					$next_run = strtotime( '+1 week', $next_run );
+				}
 				break;
 			case 'monthly':
-				$next_run = gmdate( 'Y-m-d H:i:s', strtotime( '+1 month', strtotime( $next_run ) ) );
+				// Trouver le prochain mois après maintenant
+				while ( $next_run <= $current_timestamp ) {
+					$next_run = strtotime( '+1 month', $next_run );
+				}
 				break;
 			case 'custom':
-				// Pour custom, on utilise la date fournie dans la config
-				if ( isset( $schedule_config['custom_date'] ) && ! empty( $schedule_config['custom_date'] ) ) {
-					$next_run = gmdate( 'Y-m-d H:i:s', strtotime( $schedule_config['custom_date'] ) );
-				}
+				// Pour custom, utiliser la date exacte (même si passée)
+				$next_run = $start_timestamp;
 				break;
 		}
 
-		return $next_run;
+		return gmdate( 'Y-m-d H:i:s', $next_run );
 	}
 
 	/**
@@ -291,10 +309,10 @@ class Prospection_Claude_Campaign_Manager {
 			$target_categories = array_map( 'sanitize_text_field', $data['target_categories'] );
 		}
 
-		// Sanitize la config du scheduling
+		// Sanitize la config du scheduling (date de début pour tous les types)
 		$schedule_config = array();
-		if ( 'custom' === ( $data['schedule_type'] ?? '' ) && isset( $data['custom_date'] ) ) {
-			$schedule_config['custom_date'] = sanitize_text_field( wp_unslash( $data['custom_date'] ) );
+		if ( isset( $data['schedule_date'] ) && ! empty( $data['schedule_date'] ) ) {
+			$schedule_config['schedule_date'] = sanitize_text_field( wp_unslash( $data['schedule_date'] ) );
 		}
 
 		$campaign_data = array(

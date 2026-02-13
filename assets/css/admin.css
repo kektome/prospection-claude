@@ -597,14 +597,14 @@
 }
 
 /* Custom date field styling */
-#custom-date-field {
+#schedule-date-field {
 	background: #f8f9fa;
 	border: 1px solid #ddd;
 	border-radius: 4px;
 	padding: 15px;
 }
 
-#custom-date-field input[type="datetime-local"] {
+#schedule-date-field input[type="datetime-local"] {
 	max-width: 300px;
 }
 
@@ -620,7 +620,7 @@
 		padding-top: 10px;
 	}
 
-	#custom-date-field input[type="datetime-local"] {
+	#schedule-date-field input[type="datetime-local"] {
 		max-width: 100%;
 		width: 100%;
 	}

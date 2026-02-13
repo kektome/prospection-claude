@@ -142,14 +142,33 @@ $schedule_config = $is_edit && $campaign ? $campaign->get_schedule_config_array(
 						</fieldset>
 						<p class="description"><?php esc_html_e( 'La fréquence à laquelle cette campagne sera envoyée.', 'prospection-claude' ); ?></p>
 
-						<!-- Champ de date personnalisée (conditionnel) -->
-						<div id="custom-date-field" style="margin-top: 15px; <?php echo 'custom' !== $schedule_type ? 'display: none;' : ''; ?>">
-							<label for="custom_date"><?php esc_html_e( 'Date et heure d\'envoi', 'prospection-claude' ); ?></label><br>
+						<!-- Champ de date/heure (pour tous les types) -->
+						<div id="schedule-date-field" style="margin-top: 15px;">
+							<label for="schedule_date">
+								<span id="schedule-date-label">
+									<?php
+									if ( 'custom' === $schedule_type ) {
+										esc_html_e( 'Date et heure d\'envoi unique', 'prospection-claude' );
+									} else {
+										esc_html_e( 'Date et heure de la première exécution', 'prospection-claude' );
+									}
+									?>
+								</span>
+							</label><br>
 							<input type="datetime-local"
-								   name="custom_date"
-								   id="custom_date"
-								   value="<?php echo isset( $schedule_config['custom_date'] ) ? esc_attr( gmdate( 'Y-m-d\TH:i', strtotime( $schedule_config['custom_date'] ) ) ) : ''; ?>">
-							<p class="description"><?php esc_html_e( 'La date et l\'heure exacte d\'envoi pour cette campagne unique.', 'prospection-claude' ); ?></p>
+								   name="schedule_date"
+								   id="schedule_date"
+								   value="<?php echo isset( $schedule_config['schedule_date'] ) ? esc_attr( gmdate( 'Y-m-d\TH:i', strtotime( $schedule_config['schedule_date'] ) ) ) : ''; ?>"
+								   required>
+							<p class="description" id="schedule-date-description">
+								<?php
+								if ( 'custom' === $schedule_type ) {
+									esc_html_e( 'La date et l\'heure exacte d\'envoi pour cette campagne unique.', 'prospection-claude' );
+								} else {
+									esc_html_e( 'La date et l\'heure de la première exécution. Les envois suivants se feront automatiquement selon la fréquence choisie.', 'prospection-claude' );
+								}
+								?>
+							</p>
 						</div>
 					</td>
 				</tr>

@@ -258,13 +258,13 @@
 			}
 		});
 
-		// Afficher/masquer le champ de date personnalisée selon le type de scheduling
+		// Mettre à jour le label et la description selon le type de scheduling
 		$('input[name="schedule_type"]').on('change', function() {
-			toggleCustomDateField();
+			updateScheduleDateLabel();
 		});
 
-		// Initialiser l'affichage du champ de date au chargement
-		toggleCustomDateField();
+		// Initialiser le label au chargement
+		updateScheduleDateLabel();
 	}
 
 	/**
@@ -287,18 +287,19 @@
 	}
 
 	/**
-	 * Affiche ou masque le champ de date personnalisée.
+	 * Met à jour le label et la description du champ de date selon le type de scheduling.
 	 */
-	function toggleCustomDateField() {
+	function updateScheduleDateLabel() {
 		const selectedType = $('input[name="schedule_type"]:checked').val();
-		const $customDateField = $('#custom-date-field');
+		const $label = $('#schedule-date-label');
+		const $description = $('#schedule-date-description');
 
 		if (selectedType === 'custom') {
-			$customDateField.slideDown(200);
-			$('#custom_date').prop('required', true);
+			$label.text('Date et heure d\'envoi unique');
+			$description.text('La date et l\'heure exacte d\'envoi pour cette campagne unique.');
 		} else {
-			$customDateField.slideUp(200);
-			$('#custom_date').prop('required', false);
+			$label.text('Date et heure de la première exécution');
+			$description.text('La date et l\'heure de la première exécution. Les envois suivants se feront automatiquement selon la fréquence choisie.');
 		}
 	}
 
