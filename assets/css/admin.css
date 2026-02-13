@@ -1,0 +1,28 @@
+/**
+ * Styles pour l'administration du plugin Prospection Claude.
+ *
+ * @package ProspectionClaude
+ */
+
+/* Variables CSS */
+:root {
+	--pc-primary: #2271b1;
+	--pc-primary-hover: #135e96;
+	--pc-success: #00a32a;
+	--pc-warning: #dba617;
+	--pc-danger: #d63638;
+	--pc-border: #c3c4c7;
+	--pc-bg: #f0f0f1;
+}
+
+/* Styles de base pour les pages du plugin */
+.wrap.prospection-claude {
+	max-width: 1400px;
+	margin: 20px auto;
+}
+
+.prospection-claude h1 {
+	margin-bottom: 20px;
+}
+
+/* Les styles spécifiques seront ajoutés dans les phases suivantes */
