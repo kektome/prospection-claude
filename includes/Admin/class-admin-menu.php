@@ -33,6 +33,13 @@ class Prospection_Claude_Admin_Menu {
 	private $contact_manager;
 
 	/**
+	 * Instance du Template Manager.
+	 *
+	 * @var Prospection_Claude_Template_Manager
+	 */
+	private $template_manager;
+
+	/**
 	 * Constructeur.
 	 */
 	public function __construct() {
@@ -40,6 +47,9 @@ class Prospection_Claude_Admin_Menu {
 
 		// Initialiser le Contact Manager une seule fois
 		$this->contact_manager = new Prospection_Claude_Contact_Manager();
+
+		// Initialiser le Template Manager une seule fois
+		$this->template_manager = new Prospection_Claude_Template_Manager();
 
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 	}
@@ -267,10 +277,8 @@ class Prospection_Claude_Admin_Menu {
 			wp_die( esc_html__( 'Vous n\'avez pas les permissions nécessaires pour accéder à cette page.', 'prospection-claude' ) );
 		}
 
-		echo '<div class="wrap prospection-claude">';
-		echo '<h1>' . esc_html__( 'Templates d\'emails', 'prospection-claude' ) . '</h1>';
-		echo '<p>' . esc_html__( 'Cette fonctionnalité sera disponible dans la Phase 4.', 'prospection-claude' ) . '</p>';
-		echo '</div>';
+		// Cette page est gérée par Template_Manager (initialisé dans le constructeur)
+		$this->template_manager->render();
 	}
 
 	/**
