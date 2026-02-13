@@ -13,6 +13,7 @@
 	$(document).ready(function() {
 		initContactsPage();
 		initTemplatesPage();
+		initCampaignsPage();
 	});
 
 	/**
@@ -228,6 +229,78 @@
 		setTimeout(function() {
 			toast.remove();
 		}, 3000);
+	}
+
+	/* =====================================================
+	   CAMPAGNES - Phase 5
+	   ===================================================== */
+
+	/**
+	 * Initialisation de la page des campagnes.
+	 */
+	function initCampaignsPage() {
+		// Filtre par statut
+		$('#filter-by-status').on('change', function() {
+			filterByStatus();
+		});
+
+		$('#filter-submit').on('click', function(e) {
+			e.preventDefault();
+			filterByStatus();
+		});
+
+		// Confirmation de suppression des campagnes
+		$('a.delete-campaign, a[href*="prospection-claude-campaigns"][href*="action=delete"]').on('click', function(e) {
+			const confirmText = 'Êtes-vous sûr de vouloir supprimer cette campagne ?';
+			if (!confirm(confirmText)) {
+				e.preventDefault();
+				return false;
+			}
+		});
+
+		// Mettre à jour le label et la description selon le type de scheduling
+		$('input[name="schedule_type"]').on('change', function() {
+			updateScheduleDateLabel();
+		});
+
+		// Initialiser le label au chargement
+		updateScheduleDateLabel();
+	}
+
+	/**
+	 * Filtre la liste des campagnes par statut.
+	 */
+	function filterByStatus() {
+		const status = $('#filter-by-status').val();
+		const currentUrl = new URL(window.location.href);
+
+		// Supprimer la pagination
+		currentUrl.searchParams.delete('paged');
+
+		if (status) {
+			currentUrl.searchParams.set('filter_active', status);
+		} else {
+			currentUrl.searchParams.delete('filter_active');
+		}
+
+		window.location.href = currentUrl.toString();
+	}
+
+	/**
+	 * Met à jour le label et la description du champ de date selon le type de scheduling.
+	 */
+	function updateScheduleDateLabel() {
+		const selectedType = $('input[name="schedule_type"]:checked').val();
+		const $label = $('#schedule-date-label');
+		const $description = $('#schedule-date-description');
+
+		if (selectedType === 'custom') {
+			$label.text('Date et heure d\'envoi unique');
+			$description.text('La date et l\'heure exacte d\'envoi pour cette campagne unique.');
+		} else {
+			$label.text('Date et heure de la première exécution');
+			$description.text('La date et l\'heure de la première exécution. Les envois suivants se feront automatiquement selon la fréquence choisie.');
+		}
 	}
 
 })(jQuery);

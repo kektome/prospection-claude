@@ -73,11 +73,12 @@ class Prospection_Claude_Plugin_Core {
 		require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Repositories/class-campaign-repository.php';
 		require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Repositories/class-log-repository.php';
 
-		// Charger les classes Admin (Phase 3 & 4)
+		// Charger les classes Admin (Phase 3, 4 & 5)
 		if ( is_admin() ) {
 			require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Admin/class-admin-menu.php';
 			require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Admin/class-contact-manager.php';
 			require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Admin/class-template-manager.php';
+			require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Admin/class-campaign-manager.php';
 		}
 
 		// Les Services seront chargés dans les phases suivantes

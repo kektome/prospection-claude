@@ -40,6 +40,13 @@ class Prospection_Claude_Admin_Menu {
 	private $template_manager;
 
 	/**
+	 * Instance du Campaign Manager.
+	 *
+	 * @var Prospection_Claude_Campaign_Manager
+	 */
+	private $campaign_manager;
+
+	/**
 	 * Constructeur.
 	 */
 	public function __construct() {
@@ -50,6 +57,9 @@ class Prospection_Claude_Admin_Menu {
 
 		// Initialiser le Template Manager une seule fois
 		$this->template_manager = new Prospection_Claude_Template_Manager();
+
+		// Initialiser le Campaign Manager une seule fois
+		$this->campaign_manager = new Prospection_Claude_Campaign_Manager();
 
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 	}
@@ -289,10 +299,8 @@ class Prospection_Claude_Admin_Menu {
 			wp_die( esc_html__( 'Vous n\'avez pas les permissions nécessaires pour accéder à cette page.', 'prospection-claude' ) );
 		}
 
-		echo '<div class="wrap prospection-claude">';
-		echo '<h1>' . esc_html__( 'Campagnes', 'prospection-claude' ) . '</h1>';
-		echo '<p>' . esc_html__( 'Cette fonctionnalité sera disponible dans la Phase 5.', 'prospection-claude' ) . '</p>';
-		echo '</div>';
+		// Cette page est gérée par Campaign_Manager (initialisé dans le constructeur)
+		$this->campaign_manager->render();
 	}
 
 	/**
