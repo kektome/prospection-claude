@@ -8,7 +8,67 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 ## [Non publié]
 
 ### En cours
-- Phase 6: Service Layer - Envoi d'Emails
+- Phase 7: Cron Jobs - Automation
+
+---
+
+## [0.6.0] - 2026-02-13
+
+### Ajouté
+- **Phase 6 complétée: Service Layer - Envoi d'Emails**
+  - Service d'envoi d'emails avec remplacement de variables
+  - Service d'exécution de campagnes
+  - Logging automatique des envois
+  - Génération de liens de désinscription sécurisés
+  - Statistiques d'envoi par campagne
+
+### Services
+- **Email_Service**: Gestion de l'envoi d'emails
+  * send_campaign_email(): Envoi à un contact pour une campagne
+  * send_test_email(): Envoi de test sans campagne
+  * send_campaign_to_contacts(): Envoi en masse avec pause anti-spam
+  * generate_unsubscribe_link(): Génération token sécurisé
+  * verify_unsubscribe_token(): Vérification token avec hash_equals
+  * get_campaign_stats(): Statistiques d'envoi
+  * log_email(): Logging automatique dans EmailLog
+
+- **Campaign_Executor**: Exécution automatique des campagnes
+  * execute_due_campaigns(): Exécution de toutes les campagnes dues
+  * execute_campaign(): Exécution d'une campagne spécifique
+  * get_eligible_contacts(): Récupération contacts par catégories
+  * update_campaign_next_run(): Calcul +1 day/week/month
+  * execute_campaign_manual(): Envoi manuel pour tests
+
+### Logique d'envoi
+- **Vérifications**: Contact is_subscribed, template exists
+- **Remplacement variables**: Utilise EmailTemplate->replace_variables()
+- **Email HTML**: Headers Content-Type HTML, charset UTF-8
+- **wp_mail()**: Integration WordPress native
+- **Pause anti-spam**: 0.1s entre chaque email (usleep 100000)
+- **Logging**: Status (sent/failed), error_message, sent_at
+
+### Liens de désinscription
+- **Token sécurisé**: wp_hash(id + email + wp_salt())
+- **URL**: home_url() + query params (contact_id, token)
+- **Vérification**: hash_equals() pour timing-attack protection
+- **Variable**: {unsubscribe_link} dans templates
+
+### Exécution campagnes
+- **Contacts éligibles**: Filtrés par catégorie + is_subscribed
+- **Déduplication**: array keys par contact ID
+- **Update next_run**:
+  * daily/weekly/monthly: +intervalle depuis current next_run
+  * custom: désactivation auto après envoi
+- **Stats retour**: contacts, sent, failed, message
+
+### Intégration
+- **Plugin_Core**: Chargement automatique des services
+- **Prêt pour**: Cron jobs (Phase 7) et interface manuelle
+
+### Notes
+- Services d'envoi opérationnels et testables
+- Prêt pour Phase 7 (Cron Jobs)
+- Compatible WordPress 5.8+
 
 ---
 

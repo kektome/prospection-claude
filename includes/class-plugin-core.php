@@ -81,7 +81,9 @@ class Prospection_Claude_Plugin_Core {
 			require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Admin/class-campaign-manager.php';
 		}
 
-		// Les Services seront chargés dans les phases suivantes
+		// Charger les Services (Phase 6)
+		require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Services/class-email-service.php';
+		require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Services/class-campaign-executor.php';
 	}
 
 	/**
