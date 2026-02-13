@@ -148,8 +148,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								</span>
 								|
 								<span class="delete">
-									<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=prospection-claude-contacts&action=delete&id=' . $contact->id ), 'delete_contact' ) ); ?>"
-									   onclick="return confirm('<?php echo esc_js( __( 'Êtes-vous sûr de vouloir supprimer ce contact ?', 'prospection-claude' ) ); ?>');">
+									<a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=prospection-claude-contacts&action=delete&id=' . $contact->id ), 'delete_contact' ) ); ?>" class="delete-contact">
 										<?php esc_html_e( 'Supprimer', 'prospection-claude' ); ?>
 									</a>
 								</span>
