@@ -55,6 +55,7 @@ class Prospection_Claude_Plugin_Core {
 	 *
 	 * Cette méthode inclut les fichiers nécessaires au fonctionnement du plugin.
 	 * Phase 2: Chargement des Helpers, Models et Repositories.
+	 * Phase 3: Chargement des classes Admin.
 	 */
 	private function load_dependencies() {
 		// Charger le Helper Validator
@@ -72,7 +73,13 @@ class Prospection_Claude_Plugin_Core {
 		require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Repositories/class-campaign-repository.php';
 		require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Repositories/class-log-repository.php';
 
-		// Les Services et Admin seront chargés dans les phases suivantes
+		// Charger les classes Admin (Phase 3)
+		if ( is_admin() ) {
+			require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Admin/class-admin-menu.php';
+			require_once PROSPECTION_CLAUDE_PLUGIN_DIR . 'includes/Admin/class-contact-manager.php';
+		}
+
+		// Les Services seront chargés dans les phases suivantes
 	}
 
 	/**
@@ -98,14 +105,18 @@ class Prospection_Claude_Plugin_Core {
 	/**
 	 * Enregistre tous les hooks liés à l'administration.
 	 *
-	 * Cette méthode sera étendue dans les phases suivantes pour ajouter
-	 * les menus, pages d'administration, etc.
+	 * Phase 3: Initialisation du menu et des pages d'administration.
 	 */
 	private function define_admin_hooks() {
 		// Enregistrer les styles et scripts admin
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets' ) );
 
-		// Les autres hooks admin seront ajoutés dans les phases suivantes
+		// Initialiser le menu admin (Phase 3)
+		if ( is_admin() ) {
+			new Prospection_Claude_Admin_Menu();
+		}
+
+		// Les autres hooks admin (templates, campagnes) seront ajoutés dans les phases suivantes
 	}
 
 	/**
