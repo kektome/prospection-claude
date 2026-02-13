@@ -39,7 +39,7 @@ class Prospection_Claude_Contact_Manager {
 	 * Point d'entrée principal pour afficher la page.
 	 */
 	public function render() {
-		// Les actions POST sont maintenant gérées via le hook admin_init
+		// Les actions POST et DELETE sont maintenant gérées via le hook admin_init
 
 		// Déterminer quelle vue afficher
 		$action = isset( $_GET['action'] ) ? sanitize_text_field( wp_unslash( $_GET['action'] ) ) : 'list';
@@ -50,9 +50,6 @@ class Prospection_Claude_Contact_Manager {
 				break;
 			case 'edit':
 				$this->render_form();
-				break;
-			case 'delete':
-				$this->handle_delete();
 				break;
 			default:
 				$this->render_list();
@@ -69,7 +66,13 @@ class Prospection_Claude_Contact_Manager {
 			return;
 		}
 
-		// Vérifier si c'est une soumission de formulaire
+		// Gérer la suppression (GET avec nonce)
+		if ( isset( $_GET['action'] ) && 'delete' === $_GET['action'] && isset( $_GET['id'] ) ) {
+			$this->handle_delete();
+			return;
+		}
+
+		// Vérifier si c'est une soumission de formulaire POST
 		if ( ! isset( $_POST['prospection_claude_contact_nonce'] ) ) {
 			return;
 		}
@@ -268,6 +271,9 @@ class Prospection_Claude_Contact_Manager {
 	 * Affiche le formulaire d'ajout/édition.
 	 */
 	private function render_form() {
+		// Afficher les messages d'erreur
+		$this->display_admin_notices();
+
 		$contact_id = isset( $_GET['id'] ) ? (int) $_GET['id'] : 0;
 		$contact    = null;
 		$is_edit    = false;
