@@ -1,13 +1,13 @@
 <?php
 /**
- * Plugin Name:       Prospection Claude
+ * Plugin Name:       Prospection (Claude)
  * Plugin URI:        https://github.com/kektome/prospection-claude
  * Description:       Plugin de gestion de contacts et d'envoi automatisé de newsletters pour les prospects rencontrés en congrès.
  * Version:           0.1.0
  * Requires at least: 5.8
  * Requires PHP:      7.4
- * Author:            Développé avec Claude Code
- * Author URI:        https://claude.ai
+ * Author:            C2T3
+ * Author URI:        https://c2t3.net
  * License:           Proprietary
  * Text Domain:       prospection-claude
  * Domain Path:       /languages
