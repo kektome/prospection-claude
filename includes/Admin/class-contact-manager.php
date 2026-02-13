@@ -30,14 +30,16 @@ class Prospection_Claude_Contact_Manager {
 	 */
 	public function __construct() {
 		$this->repository = new Prospection_Claude_Contact_Repository();
+
+		// Traiter les actions POST tôt, avant tout output
+		add_action( 'admin_init', array( $this, 'handle_actions' ) );
 	}
 
 	/**
 	 * Point d'entrée principal pour afficher la page.
 	 */
 	public function render() {
-		// Gérer les actions POST
-		$this->handle_actions();
+		// Les actions POST sont maintenant gérées via le hook admin_init
 
 		// Déterminer quelle vue afficher
 		$action = isset( $_GET['action'] ) ? sanitize_text_field( wp_unslash( $_GET['action'] ) ) : 'list';
@@ -61,7 +63,12 @@ class Prospection_Claude_Contact_Manager {
 	/**
 	 * Gère les actions POST (création, modification, suppression).
 	 */
-	private function handle_actions() {
+	public function handle_actions() {
+		// Vérifier qu'on est sur la page des contacts
+		if ( ! isset( $_GET['page'] ) || 'prospection-claude-contacts' !== $_GET['page'] ) {
+			return;
+		}
+
 		// Vérifier si c'est une soumission de formulaire
 		if ( ! isset( $_POST['prospection_claude_contact_nonce'] ) ) {
 			return;

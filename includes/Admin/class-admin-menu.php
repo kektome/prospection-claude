@@ -26,10 +26,21 @@ class Prospection_Claude_Admin_Menu {
 	private $menu_slug;
 
 	/**
+	 * Instance du Contact Manager.
+	 *
+	 * @var Prospection_Claude_Contact_Manager
+	 */
+	private $contact_manager;
+
+	/**
 	 * Constructeur.
 	 */
 	public function __construct() {
 		$this->menu_slug = 'prospection-claude';
+
+		// Initialiser le Contact Manager une seule fois
+		$this->contact_manager = new Prospection_Claude_Contact_Manager();
+
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 	}
 
@@ -244,9 +255,8 @@ class Prospection_Claude_Admin_Menu {
 			wp_die( esc_html__( 'Vous n\'avez pas les permissions nécessaires pour accéder à cette page.', 'prospection-claude' ) );
 		}
 
-		// Cette page sera gérée par Contact_Manager
-		$contact_manager = new Prospection_Claude_Contact_Manager();
-		$contact_manager->render();
+		// Cette page est gérée par Contact_Manager (initialisé dans le constructeur)
+		$this->contact_manager->render();
 	}
 
 	/**
